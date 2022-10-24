@@ -1,11 +1,12 @@
 import React from "react";
 import Table from "./Table.";
+import { ContextProvider } from "./Context";
 
-const CRUDDataGrid = () => {
+const CRUDDataGrid = ({ headers, data, validation }) => {
   return (
-    <div>
+    <ContextProvider headers={headers} data={data} validation={validation}>
       <Table />
-    </div>
+    </ContextProvider>
   );
 };
 

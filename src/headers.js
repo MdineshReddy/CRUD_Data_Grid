@@ -13,7 +13,6 @@ const headers = [
     sortable: true,
     props: {
       required: true,
-      minLength: 5,
     },
     formElement: true,
   },
@@ -25,7 +24,7 @@ const headers = [
     sortable: true,
     editable: true,
     props: {
-      min: 20,
+      required: true,
     },
     formElement: true,
   },
@@ -36,7 +35,7 @@ const headers = [
     sortable: true,
     editable: true,
     props: {
-      //   min: "2022-10-22",
+      required: true,
     },
     formElement: true,
   },
@@ -48,6 +47,9 @@ const headers = [
     options: ["admin", "lead", "member"],
     sortable: true,
     editable: true,
+    props: {
+      required: true,
+    },
     formElement: true,
   },
 ];

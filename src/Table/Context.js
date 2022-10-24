@@ -57,10 +57,11 @@ function reducer(state, action) {
   }
 }
 
-export const ContextProvider = ({ children, headers, data }) => {
+export const ContextProvider = ({ children, headers, data, validation }) => {
   const initalState = {
     headers: headers,
     rows: data,
+    validation,
     sort: {
       property: "",
       asc: true,
@@ -71,34 +72,34 @@ export const ContextProvider = ({ children, headers, data }) => {
   const [state, dispatch] = useReducer(reducer, initalState);
 
   const insertRow = (payload) => {
-    return {
+    dispatch({
       type: "INSERT_ROW",
       payload,
-    };
+    });
   };
 
   const updateRow = (payload) => {
-    return {
+    dispatch({
       type: "UPDATE_ROW",
       payload,
-    };
+    });
   };
 
   const deleteRow = (id) => {
-    return {
+    dispatch({
       type: "DELETE_ROW",
       payload: id,
-    };
+    });
   };
 
   const sortBy = (property, asc) => {
-    return {
+    dispatch({
       type: "SORT_BY",
       payload: {
         property,
         asc,
       },
-    };
+    });
   };
 
   return (

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import headers from "./headers";
+import headers from "../headers";
+import { useGridContext } from "./Context";
 
-const Form = ({ setRows, showForm }) => {
+const Form = ({ showForm }) => {
+  const { insertRow } = useGridContext();
   const formElements = headers.filter((header) => header.formElement);
   const columns = formElements.map((header) => header.accessor);
   const defaultData = {};
@@ -11,7 +13,7 @@ const Form = ({ setRows, showForm }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setRows((prev) => [...prev, { ...formData }]);
+    insertRow(formData);
     showForm(false);
   };
 
@@ -35,7 +37,6 @@ const Form = ({ setRows, showForm }) => {
                     })
                   }
                 >
-                  <option value="">Select {formElement.accessor}</option>
                   {formElement.options.map((option) => (
                     <option key={option}>{option}</option>
                   ))}

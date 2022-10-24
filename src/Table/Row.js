@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
-import headers from "./headers";
+import React, { useState } from "react";
+import headers from "../headers";
+import { useGridContext } from "./Context";
 
 const Row = ({ row, handleUpdate, handleDelete }) => {
+  const {
+    state: { validation },
+  } = useGridContext();
+
   const [editMode, setEditMode] = useState(false);
   const columns = headers.map((header) => header.accessor);
   const defaultData = {};
@@ -9,10 +14,6 @@ const Row = ({ row, handleUpdate, handleDelete }) => {
     defaultData[column] = row[column];
   });
   const [rowData, setRowData] = useState(defaultData);
-
-  useEffect(() => {
-    setRowData(defaultData);
-  }, [editMode]);
 
   if (!editMode) {
     return (
@@ -48,8 +49,13 @@ const Row = ({ row, handleUpdate, handleDelete }) => {
         <span
           className="icon green"
           onClick={() => {
-            handleUpdate(rowData);
-            setEditMode(false);
+            let errors = validation(rowData);
+            if (errors.length === 0) {
+              handleUpdate(rowData);
+              setEditMode(false);
+            }
+            let errMessage = errors.reduce((p, c) => (p += "\n" + c), "");
+            alert(errMessage);
           }}
         >
           ✓
@@ -57,10 +63,11 @@ const Row = ({ row, handleUpdate, handleDelete }) => {
         <span
           className="icon red"
           onClick={() => {
+            setRowData(defaultData);
             setEditMode(false);
           }}
         >
-          ×
+          X
         </span>
       </td>
       {headers.map((header, index) => {

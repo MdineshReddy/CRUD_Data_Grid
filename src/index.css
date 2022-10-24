@@ -47,7 +47,7 @@ table select {
   box-sizing: border-box;
 }
 
-table input:invalid {
+input:invalid {
   border: 2px solid red;
 }
 

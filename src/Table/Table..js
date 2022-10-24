@@ -1,48 +1,32 @@
 import React, { useEffect, useState } from "react";
-import headers from "./headers";
-import data from "./data";
+import { useGridContext } from "./Context";
 import Form from "./Form";
 import Row from "./Row";
 import Paginate from "./Paginate";
 
 const Table = () => {
-  const [rows, setRows] = useState(data);
-  const [sortBy, setSortBy] = useState({ property: "", asc: false });
+  const {
+    state: { rows, headers, sort },
+    updateRow,
+    deleteRow,
+    sortBy,
+  } = useGridContext();
   const [page, setPage] = useState(1);
   const [form, showForm] = useState(false);
 
   const [pageCount, setPageCount] = useState(5);
 
   const handleUpdate = (data) => {
-    setRows((prev) =>
-      prev.map((row) => {
-        if (row.id === data.id) {
-          return data;
-        }
-        return row;
-      })
-    );
+    updateRow(data);
   };
 
   const handleDelete = (id) => {
     // eslint-disable-next-line no-restricted-globals
-    if (confirm("Are you sure you want to delete this record"))
-      setRows((prev) => prev.filter((row) => row.id !== id));
+    if (confirm("Are you sure you want to delete this record")) deleteRow(id);
   };
 
-  const handleSort = (property, type, asc) => {
-    setSortBy({ property, asc });
-    const sorted = [...rows].sort((a, b) => {
-      if (a[property] === null) return 1;
-      if (b[property] === null) return -1;
-      if (a[property] === null && b[property] === null) return 0;
-      return (
-        a[property].toString().localeCompare(b[property].toString(), "en", {
-          numeric: true,
-        }) * (asc ? 1 : -1)
-      );
-    });
-    setRows(sorted);
+  const handleSort = (property, asc) => {
+    sortBy(property, asc);
   };
 
   return (
@@ -50,7 +34,7 @@ const Table = () => {
       <button className="add-btn" onClick={() => showForm(true)}>
         Add Record
       </button>
-      {form && <Form setRows={setRows} showForm={showForm} />}
+      {form && <Form showForm={showForm} />}
       <div className="table-container">
         <table>
           <thead>
@@ -67,13 +51,11 @@ const Table = () => {
                           cursor: "pointer",
                         }}
                         className={
-                          sortBy.property === headerItem.accessor && sortBy.asc
+                          sort.property === headerItem.accessor && sort.asc
                             ? "activeSort"
                             : ""
                         }
-                        onClick={() =>
-                          handleSort(headerItem.accessor, headerItem.type, true)
-                        }
+                        onClick={() => handleSort(headerItem.accessor, true)}
                       >
                         ↑
                       </span>
@@ -83,17 +65,11 @@ const Table = () => {
                           cursor: "pointer",
                         }}
                         className={
-                          sortBy.property === headerItem.accessor && !sortBy.asc
+                          sort.property === headerItem.accessor && !sort.asc
                             ? "activeSort"
                             : ""
                         }
-                        onClick={() =>
-                          handleSort(
-                            headerItem.accessor,
-                            headerItem.type,
-                            false
-                          )
-                        }
+                        onClick={() => handleSort(headerItem.accessor, false)}
                       >
                         ↓
                       </span>
