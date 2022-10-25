@@ -50,12 +50,14 @@ const Row = ({ row, handleUpdate, handleDelete }) => {
           className="icon green"
           onClick={() => {
             let errors = validation(rowData);
+            console.log(errors);
             if (errors.length === 0) {
               handleUpdate(rowData);
               setEditMode(false);
+            } else {
+              let errMessage = errors.reduce((p, c) => (p += "\n" + c), "");
+              alert(errMessage);
             }
-            let errMessage = errors.reduce((p, c) => (p += "\n" + c), "");
-            alert(errMessage);
           }}
         >
           ✓

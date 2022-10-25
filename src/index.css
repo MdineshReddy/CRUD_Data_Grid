@@ -29,7 +29,7 @@ th,
 td {
   padding: 1rem;
   text-align: left;
-  min-width: 250px;
+  min-width: 200px;
 }
 
 tr:nth-child(even) {
@@ -92,16 +92,25 @@ input {
 
 .form-container {
   position: fixed;
-  padding: 1rem;
+  overflow-y: auto;
+  max-height: 700px;
+  padding: 1rem 2rem;
   width: 95vw;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 2px solid #333;
+  border: 2px solid #efefef;
   border-radius: 15px;
   max-width: 768px;
   margin: 0 auto;
   background-color: #222;
+  background-color: #000;
+}
+
+.form-container form .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
 }
 
 .form-container label {
@@ -111,6 +120,8 @@ input {
 .form-container input,
 .form-item select {
   width: 100%;
+  background-color: #333;
+  color: #efefef;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -119,8 +130,14 @@ input {
   box-sizing: border-box;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: rgba(255, 255, 255, 1);
+}
+
 .form-container h1 {
   text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
 }
 
 .form-container input[type="submit"] {
@@ -140,9 +157,9 @@ input {
 
 .btn-container {
   display: flex;
+  margin-top: 2rem;
   align-items: center;
-  margin-top: 1rem;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .btn-container button {

@@ -5,7 +5,10 @@ const GridContext = React.createContext();
 function reducer(state, action) {
   switch (action.type) {
     case "INSERT_ROW": {
-      const newRows = [...state.rows, { ...action.payload }];
+      const newRows = [
+        ...state.rows,
+        { id: Math.floor(Math.random() * 1000), ...action.payload },
+      ];
       return {
         ...state,
         rows: newRows,

@@ -25,6 +25,7 @@ const headers = [
     editable: true,
     props: {
       required: true,
+      min: 0,
     },
     formElement: true,
   },

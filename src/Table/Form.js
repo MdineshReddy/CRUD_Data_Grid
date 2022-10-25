@@ -23,40 +23,46 @@ const Form = ({ showForm }) => {
     <div className="form-container">
       <h1>Add Record</h1>
       <form onSubmit={handleSubmit}>
-        {formElements.map((formElement) => {
-          return (
-            <div key={formElement.accessor} className="form-item">
-              <label htmlFor={formElement.accessor}>{formElement.header}</label>
-              {formElement.type === "select" ? (
-                <select
-                  value={formData[formElement.accessor]}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      [formElement.accessor]: e.target.value,
-                    })
-                  }
-                >
-                  {formElement.options.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  type={formElement.type}
-                  value={formElement[formElement.accessor]}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      [formElement.accessor]: e.target.value,
-                    })
-                  }
-                  {...formElement.props}
-                ></input>
-              )}
-            </div>
-          );
-        })}
+        <div className="grid">
+          {formElements.map((formElement) => {
+            return (
+              <div key={formElement.accessor} className="form-item">
+                <label htmlFor={formElement.accessor}>
+                  {formElement.header}
+                </label>
+                {formElement.type === "select" ? (
+                  <select
+                    value={formData[formElement.accessor]}
+                    id={formElement.accessor}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [formElement.accessor]: e.target.value,
+                      })
+                    }
+                  >
+                    {formElement.options.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={formElement.type}
+                    id={formElement.accessor}
+                    value={formElement[formElement.accessor]}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [formElement.accessor]: e.target.value,
+                      })
+                    }
+                    {...formElement.props}
+                  ></input>
+                )}
+              </div>
+            );
+          })}
+        </div>
         <div className="btn-container">
           <button
             style={{ backgroundColor: "red" }}
